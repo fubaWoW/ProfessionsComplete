@@ -43,7 +43,7 @@ NS.Tooltip = function( frame, tooltip, tooltipAnchor )
 end
 --
 NS.TextFrame = function( name, parent, text, set )
-	local f = CreateFrame( "Frame", "$parent" .. name, parent );
+	local f = CreateFrame( "Frame", "$parent" .. name, parent, "BackdropTemplate");
 	local fs = f:CreateFontString( "$parentText", set.layer or "ARTWORK", set.fontObject or "GameFontNormal" );
 	--
 	fs:SetText( text );

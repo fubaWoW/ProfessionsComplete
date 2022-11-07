@@ -59,6 +59,7 @@ MainFrame = NS.Frame( NS.addon .. "UIMainFrame", UIParent, {
 		end
 	end,
 } );
+
 --------------------------------------------------------------------------------------------------------------------------------------------
 -- SUBFRAMEHEADER
 --------------------------------------------------------------------------------------------------------------------------------------------
@@ -69,15 +70,16 @@ SubFrameHeader = NS.Frame( "SubFrameHeader", MainFrame, {
 		{ "TOPRIGHT", -10, -20 },
 	},
 	OnLoad = function( self )
-		PanelTemplates_SetNumTabs( self, #cfg.subFrameTabs );
-	end,
+		--PanelTemplates_SetNumTabs( self, #cfg.subFrameTabs );
+		self.numTabs = #cfg.subFrameTabs		
+	end;
 } );
 --------------------------------------------------------------------------------------------------------------------------------------------
 -- SUBFRAMETABS/SUBFRAMES
 --------------------------------------------------------------------------------------------------------------------------------------------
 local CreateSubFrameTab = function( index )
 	return NS.Button( "Tab" .. index, SubFrameHeader, cfg.subFrameTabs[index].tabText, {
-		template = "TabButtonTemplate",
+		template = "PanelTopTabButtonTemplate",
 		id = index,
 		setPoint = ( function( self )
 			if index == 1 then

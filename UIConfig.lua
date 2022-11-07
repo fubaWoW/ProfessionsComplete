@@ -19,7 +19,7 @@ NS.UI.cfg = {
 		end,
 		OnHide		= function( MainFrame )
 			local parentName = MainFrame:GetParent():GetName();
-			if parentName == "TradeSkillFrame" or parentName == "TSMCraftingTradeSkillFrame" or parentName == "SkilletFrame" then
+			if parentName == "ProfessionsFrame" or parentName == "TSMCraftingTradeSkillFrame" or parentName == "SkilletFrame" then
 				MainFrame:SetParent( UIParent ); -- Remove from TradeSkillFrame, TSMCraftingTradeSkillFrame, SkilletFrame
 				MainFrame:Hide();
 			end
@@ -32,8 +32,8 @@ NS.UI.cfg = {
 		Reposition = function( MainFrame )
 			MainFrame:ClearAllPoints();
 			local parentName = MainFrame:GetParent():GetName();
-			if parentName == "TradeSkillFrame" then
-				MainFrame:SetPoint( "LEFT", "$parent", "RIGHT", 0, 0 ); -- TradeSkillFrame
+			if (parentName == "ProfessionsFrame") then
+				MainFrame:SetPoint( "TOPLEFT", "$parent", "TOPRIGHT", 0, 0 ); -- ProfessionsFrame
 			elseif parentName == "TSMCraftingTradeSkillFrame" or parentName == "SkilletFrame" then
 				MainFrame:SetPoint( "TOPLEFT", "$parent", "TOPRIGHT", 0, 0 ); -- SkilletFrame
 			else
@@ -59,8 +59,12 @@ NS.UI.cfg = {
 					setPoint = { "TOPLEFT", "#sibling", "TOPRIGHT", -2, 0 },
 				} );
 				local function CooldownButton_OnClick( CooldownButton, buttonClicked, skillLine, spellName, spellID )
-					if ( ( not TradeSkillFrame or not TradeSkillFrame:IsShown() ) and ( not TSMCraftingTradeSkillFrame or not TSMCraftingTradeSkillFrame:IsShown() ) and ( not SkilletFrame or not SkilletFrame:IsShown() ) ) or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or skillLine ~= select( 6, C_TradeSkillUI.GetTradeSkillLine() ) then
-						CastSpellByName( NS.professionInfo[skillLine].name ); -- Open required TradeSkillFrame. Not having the profession causes no effect
+					if ( ( not ProfessionsFrame or not ProfessionsFrame:IsShown() ) and ( not TSMCraftingTradeSkillFrame or not TSMCraftingTradeSkillFrame:IsShown() ) and ( not SkilletFrame or not SkilletFrame:IsShown() ) ) or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or (skillLine ~= C_TradeSkillUI.GetBaseProfessionInfo().professionID) then
+						if (select(4,GetBuildInfo()) < 20000) then
+							CastSpellByName( NS.professionInfo[skillLine].name ); -- Open required TradeSkillFrame. Not having the profession causes no effect						
+						else
+							C_TradeSkillUI.OpenTradeSkill(skillLine)
+						end
 						C_Timer.After( 0.01, function()
 							if GetMouseFocus() == CooldownButton then
 								CooldownButton:GetScript( "OnEnter" )( CooldownButton ); -- Updates tooltip - I had to delay this in patch 8.0.1 because a newly opened TradeSkill wasn't being reflected fast enough.
@@ -71,28 +75,14 @@ NS.UI.cfg = {
 						if not recipeInfo or not recipeInfo.learned then
 							NS.Print( RED_FONT_COLOR_CODE .. string.format( L["%s spell %s (%d) not found"], NS.professionInfo[skillLine].name, spellName, spellID ) .. FONT_COLOR_CODE_CLOSE );
 						else
-							if TradeSkillFrame and TradeSkillFrame:IsShown() then -- Select recipe if using TradeSkillFrame
-								TradeSkillFrame.RecipeList:OnLearnedTabClicked(); -- Learned Tab
-								if not TradeSkillFrame.RecipeList:IsRecipeInCurrentList( spellID ) then
-									-- Expand Categories
-									TradeSkillFrame.RecipeList.collapsedCategories = {};
-									-- Clear "Search"
-									C_TradeSkillUI.SetRecipeItemNameFilter( "" );
-									C_TradeSkillUI.SetRecipeItemLevelFilter( 0, 0 );
-									TradeSkillFrame.SearchBox:SetText( "" );
-									TradeSkillFrame.SearchBox:ClearFocus();
-									-- Clear "Filter"
-									C_TradeSkillUI.SetOnlyShowMakeableRecipes( false ); -- Clear "Have Materials" filter
-									C_TradeSkillUI.SetOnlyShowSkillUpRecipes( false ); -- Clear "Has skill up" filter
-									C_TradeSkillUI.ClearInventorySlotFilter(); -- Clear "Slots" filter
-									C_TradeSkillUI.ClearRecipeCategoryFilter(); -- Clear "Category" filter
-									C_TradeSkillUI.ClearRecipeSourceTypeFilter(); -- Clear "Sources" filter
-									CloseDropDownMenus();
-									-- Try to select shortly after clear and expand
-									C_Timer.After( 0.10, function() TradeSkillFrame.RecipeList:SetSelectedRecipeID( spellID ); end );
-								else
-									TradeSkillFrame.RecipeList:SetSelectedRecipeID( spellID );
+							if ProfessionsFrame and ProfessionsFrame:IsShown() then
+								Professions.SetDefaultFilters()
+								local name = C_TradeSkillUI.GetRecipeInfo(spellID).name
+								if name and name ~= nil and strlen(name) > 0 then
+									ProfessionsFrame.CraftingPage.RecipeList.SearchBox:SetText(name)
 								end
+								-- Try to select shortly after clear and expand
+								C_Timer.After( 0.10, function() C_TradeSkillUI.OpenRecipe(spellID); end );
 							end
 							if buttonClicked == "LeftButton" then
 								-- "LeftButton"
@@ -180,7 +170,7 @@ NS.UI.cfg = {
 										GameTooltip:SetText( text );
 										if skillLine then
 											local line = "";
-											if ( ( not TradeSkillFrame or not TradeSkillFrame:IsShown() ) and ( not TSMCraftingTradeSkillFrame or not TSMCraftingTradeSkillFrame:IsShown() ) and ( not SkilletFrame or not SkilletFrame:IsShown() ) ) or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or skillLine ~= select( 6, C_TradeSkillUI.GetTradeSkillLine() ) then
+											if ( ( not TSMCraftingTradeSkillFrame or not TSMCraftingTradeSkillFrame:IsShown() ) and ( not SkilletFrame or not SkilletFrame:IsShown() ) ) or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or skillLine ~= select( 6, C_TradeSkillUI.GetTradeSkillLine() ) then
 												line = string.format( L["Click to open %s"], NS.professionInfo[skillLine].name );
 											else
 												line = L["Click to Create"];

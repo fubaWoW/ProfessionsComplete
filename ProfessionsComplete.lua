@@ -368,8 +368,8 @@ end
 -- Misc
 --------------------------------------------------------------------------------------------------------------------------------------------
 NS.OpenWithTradeSkill = function()
-	if NS.dbpc["openWithTradeSKill"] and C_TradeSkillUI.GetTradeSkillLine() ~= 129 and C_TradeSkillUI.GetTradeSkillLine() ~= 185 and C_TradeSkillUI.GetTradeSkillLine() ~= 960 and not C_TradeSkillUI.IsTradeSkillLinked() and not C_TradeSkillUI.IsTradeSkillGuild() then
-		local parent = ( TradeSkillFrame and TradeSkillFrame:IsShown() and TradeSkillFrame ) or ( TSMCraftingTradeSkillFrame and TSMCraftingTradeSkillFrame:IsShown() and TSMCraftingTradeSkillFrame ) or ( SkilletFrame and SkilletFrame:IsShown() and SkilletFrame );
+	if NS.dbpc["openWithTradeSKill"] and C_TradeSkillUI.GetBaseProfessionInfo().professionID ~= 129 and C_TradeSkillUI.GetBaseProfessionInfo().professionID ~= 185 and C_TradeSkillUI.GetBaseProfessionInfo().professionID ~= 960 and not C_TradeSkillUI.IsTradeSkillLinked() and not C_TradeSkillUI.IsTradeSkillGuild() then
+		local parent = ( ProfessionsFrame and ProfessionsFrame:IsShown() and ProfessionsFrame ) or ( TSMCraftingTradeSkillFrame and TSMCraftingTradeSkillFrame:IsShown() and TSMCraftingTradeSkillFrame ) or ( SkilletFrame and SkilletFrame:IsShown() and SkilletFrame );
 		if parent then
 			NS.UI.MainFrame:SetParent( parent ); -- Put into parent for positioning
 			NS.UI.MainFrame:Reposition();
@@ -472,9 +472,9 @@ NS.OnAddonLoaded = function( event )
 		if NS.dbpc["version"] < NS.version then
 			NS.UpgradePerCharacter();
 		end
-	elseif TradeSkillFrame then
+	elseif ProfessionsFrame then
 		PCEventsFrame:UnregisterEvent( event );
-		TradeSkillFrame:HookScript( "OnShow", NS.OpenWithTradeSkill );
+		ProfessionsFrame:HookScript( "OnShow", NS.OpenWithTradeSkill );
 	end
 end
 --
