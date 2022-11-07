@@ -1,0 +1,112 @@
+**3.0**
+
+- Release date: 05/08/2020
+- TOC updated for patch 8.3.5.
+- Added new default cooldown to Alchemy - Transmute: Herbs to Anchors.
+
+**2.9**
+
+- Release date: 12/22/2018
+- TOC updated for patch 8.1.
+- Minimap button converted to the LibDBIcon standard.
+
+**2.8**
+
+- Release date: 07/18/2018
+- TOC updated for patch 8.0.1.
+- Minor updates for compatibility with system changes made in Battle for Azeroth pre-patch: A change to the GetTradeSkillLine() method was causing the profession frame to close unexpectedly.
+- Added patch 7.3 Alchemy spell Transmute: Primal Sargerite to addon's defaults.
+- Added new Battle for Azeroth Alchemy transmute spells to addon's defaults.
+- Minimap show/hide and position are now account-wide rather than character-specific.
+- The Help tab now lists the patch that the addon is created for next to the addon version.
+- Updated the addon's Curse URL on the Help tab.
+
+**2.7**
+
+- Release date: 08/31/2017
+- TOC updated for patch 7.3.0.
+
+**2.6**
+
+- Release date: 08/14/2017
+- Right-Click a cooldown button to "Create All".
+- Minor updates to Help tab.
+
+**2.5**
+
+- Release date: 03/30/2017
+- TOC updated for patch 7.2.0.
+
+**2.4**
+
+- Release date: 11/18/2016
+- Bug fix: Option "Open with TradeSkill" may produce Lua error in some situations. Thanks to Curse user sammael666 for reporting this issue.
+- "Open with TradeSkill" option correctly no longer opens with Cooking, First Aid, or Runeforging.
+
+**2.3**
+
+- Release date: 11/01/2016
+- Bug fix: AGAIN - In the overhaul for v2.0 the Ready/NotReady cooldown remaining calculation was incorrectly changed and would become inaccurate over time in some situations. You must log into your characters to update cooldown remaining times. Thanks to Curse user kajlesf for reporting this bug.
+- The following cooldowns have been found to not work correctly as far as cooldown remaining calculation: Prismatic Sphere, Void Sphere, and Brilliant Glass
+- Several additional cooldowns have been added to the list of Defaults, this does not affect users that are upgrading unless they reset Professions to Defaults. Thanks to Curse user kajlesf for providing this information.
+
+**2.2**
+
+- Release date: 10/29/2016
+- Bug fix: In the overhaul for v2.0 the Ready/NotReady cooldown remaining calculation was incorrectly changed and would become inaccurate over time in some situations. Thanks to Curse user kajlesf for reporting this bug.
+- Now supports opening/create with TradeSkillMaster_Crafting or Skillet. Thanks to Curse user q3fuba for submitting example code changes for Skillet.
+
+**2.1**
+
+- Release date: 10/25/2016
+- TOC updated for patch 7.1.0.
+
+**2.0**
+
+- Release date: 10/05/2016
+- WARNING! There are some major changes to the addon, please read below before updating.
+- You must first exit "World of Warcraft" completely.
+- Support for Warlords of Draenor Garrison profession buildings has been removed.
+- Character data will be wiped if you're upgrading, sorry about that, it was unavoidable. So, you'll need to log onto the characters you monitor after upgrading.
+- You may now add and remove profession cooldowns through the new "Professions" tab.
+- Cooldowns no longer restricted to being daily resets, cooldowns of any duration (e.g. 7 day cooldown) are supported.
+- Current character is now always shown at top of Monitor tab.
+- Supports up to 16 cooldowns per character, up from 8.
+- Cooldowns are no longer added automatically to each character, you must check which cooldowns you want to monitor.
+- Bug fix: Crafting an item would not instantly update cooldowns in some but not all languages other than English.
+
+**1.5**
+
+- Release date: 07/19/2016
+- TOC update for patch 7.0.3.
+- Minor updates made for compatibility.
+- The tooltips of the icons/buttons under "Daily Cooldowns and Quests" have been updated to better describe their action.
+- Height of Professions Complete frame increased to match height of TradeSkill frame.
+- Number of characters visible without scrolling increased from 11 to 12 to match the increase of server character slots.
+- Transmute: Blood of Sargeras, a new Alchemy daily cooldown, added for upcoming Legion expansion.
+
+**1.4**
+
+- Release date: 03/12/2016
+- A long name-realm combination will now be truncated instead of wrapping to a second line.
+- Fixed a few text labels that were being truncated when using WoW's Fullscreen as opposed to Windowed mode.
+
+**1.3**
+
+- Release date: 06/23/2015
+- Bug fix: Alchemy Experiment, the Alchemy Lab daily wasn't updating immediately, but instead only after a reload or logging out.
+
+**1.2**
+
+- Release date: 06/23/2015
+- TOC update for patch 6.2.0.
+
+**1.1**
+
+- Release date: 06/21/2015
+- Bug fix: Characters with Herbalism or Mining caused LUA error.
+
+**1.0**
+
+- Release date: 06/21/2015
+- Initial release.

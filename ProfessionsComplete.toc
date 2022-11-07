@@ -1,0 +1,18 @@
+## Interface: 80300
+## Title: Professions Complete
+## Version: 3.0
+## Author: Clinton Caldwell (CurseForge User: cmc3215)
+## Notes: Monitors profession cooldowns account-wide, clickable icons to craft cooldowns.
+## SavedVariables: PROFESSIONSCOMPLETE_SAVEDVARIABLES
+## SavedVariablesPerCharacter: PROFESSIONSCOMPLETE_SAVEDVARIABLESPERCHARACTER
+
+Libs\LibStub.lua
+Libs\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0.lua
+Templates.xml
+Localization.lua
+Base.lua
+ProfessionsComplete.lua
+UIConfig.lua
+UICreate.lua
