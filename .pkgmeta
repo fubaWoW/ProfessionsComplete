@@ -1,0 +1,13 @@
+externals:
+  Libs:
+    url: https://repos.wowace.com/wow/libstub/trunk
+    tag: latest
+  Libs:
+    url: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+    tag: latest
+  Libs:
+    url: https://repos.wowace.com/wow/libdbicon-1-0
+    tag: latest
+  Libs:
+    url: https://repos.curseforge.com/wow/libdatabroker-1-1
+    tag: latest
