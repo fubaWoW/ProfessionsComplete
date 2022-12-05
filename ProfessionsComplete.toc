@@ -1,8 +1,7 @@
 ## Interface: 100002
 ## Title: Professions Complete
-## Version: 3.1
-## Author: fuba
-## OriginalAuthor: Clinton Caldwell (CurseForge User: cmc3215)
+## Version: 3.1.2
+## Author: cmc3215
 ## Notes: Monitors profession cooldowns account-wide, clickable icons to craft cooldowns.
 ## SavedVariables: PROFESSIONSCOMPLETE_SAVEDVARIABLES
 ## SavedVariablesPerCharacter: PROFESSIONSCOMPLETE_SAVEDVARIABLESPERCHARACTER

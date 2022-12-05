@@ -61,7 +61,7 @@ NS.UI.cfg = {
 				local function CooldownButton_OnClick( CooldownButton, buttonClicked, skillLine, spellName, spellID )
 					if ( ( not ProfessionsFrame or not ProfessionsFrame:IsShown() ) and ( not TSMCraftingTradeSkillFrame or not TSMCraftingTradeSkillFrame:IsShown() ) and ( not SkilletFrame or not SkilletFrame:IsShown() ) ) or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or (skillLine ~= C_TradeSkillUI.GetBaseProfessionInfo().professionID) then
 						if (select(4,GetBuildInfo()) < 20000) then
-							CastSpellByName( NS.professionInfo[skillLine].name ); -- Open required TradeSkillFrame. Not having the profession causes no effect						
+							--CastSpellByName( NS.professionInfo[skillLine].name ); -- Open required TradeSkillFrame. Not having the profession causes no effect						
 						else
 							C_TradeSkillUI.OpenTradeSkill(skillLine)
 						end
@@ -76,12 +76,15 @@ NS.UI.cfg = {
 							NS.Print( RED_FONT_COLOR_CODE .. string.format( L["%s spell %s (%d) not found"], NS.professionInfo[skillLine].name, spellName, spellID ) .. FONT_COLOR_CODE_CLOSE );
 						else
 							if ProfessionsFrame and ProfessionsFrame:IsShown() then
+								--ProfessionsFrame.CraftingPage.RecipeList.SearchBox:SetText("")
+								Professions.ClearSlotFilter()
 								Professions.SetDefaultFilters()
 								local name = C_TradeSkillUI.GetRecipeInfo(spellID).name
-								if name and name ~= nil and strlen(name) > 0 then
+								--if name and name ~= nil and strlen(name) > 0 then
 									ProfessionsFrame.CraftingPage.RecipeList.SearchBox:SetText(name)
-								end
+								--end
 								-- Try to select shortly after clear and expand
+								C_TradeSkillUI.OpenRecipe(spellID)
 								C_Timer.After( 0.10, function() C_TradeSkillUI.OpenRecipe(spellID); end );
 							end
 							if buttonClicked == "LeftButton" then
@@ -770,6 +773,11 @@ NS.UI.cfg = {
 					tooltip = L["Open and close frame with:\nTradeSkillFrame (Default)\nTSMCraftingTradeSkillFrame\nSkilletFrame\n\nIgnored if Linked or Guild\n\n(Character Specific)"],
 					dbpc = "openWithTradeSKill",
 				} );
+				NS.CheckButton( "ShowOnlyIfCharacterIsMonitoringCheckButton", SubFrame, L["Open only if current Character have Monitoring active"], {
+					setPoint = { "TOPLEFT", "#sibling", "BOTTOMLEFT", 0, -1 },
+					tooltip = L["Just open frame if current Character got any Profession selectd to Monitor"],
+					db = "openOnlyOnMonitoring",
+				} );
 				NS.CheckButton( "ShowMinimapButtonCheckButton", SubFrame, L["Show Minimap Button"], {
 					setPoint = { "TOPLEFT", "#sibling", "BOTTOMLEFT", 0, -1 },
 					tooltip = L["Show or hide the\nbutton on the Minimap"],
@@ -788,11 +796,12 @@ NS.UI.cfg = {
 					setPoint = { "TOPLEFT", "#sibling", "BOTTOMLEFT", 0, -1 },
 					tooltip = L["Confirm before deleting a\ncooldown from a profession."],
 					db = "showDeleteCooldownConfirmDialog",
-				} );
+				} );				
 			end,
 			Refresh			= function( SubFrame )
 				local sfn = SubFrame:GetName();
 				_G[sfn .. "OpenWithTradeSKillCheckButton"]:SetChecked( NS.dbpc["openWithTradeSKill"] );
+				_G[sfn .. "ShowOnlyIfCharacterIsMonitoringCheckButton"]:SetChecked( NS.db["openOnlyOnMonitoring"] );
 				_G[sfn .. "ShowMinimapButtonCheckButton"]:SetChecked( not NS.db["ldbi"].hide ); -- LibDBIcon
 				_G[sfn .. "ShowCharacterRealmsCheckButton"]:SetChecked( NS.db["showCharacterRealms"] );
 				_G[sfn .. "ShowDeleteCooldownConfirmDialogCheckButton"]:SetChecked( NS.db["showDeleteCooldownConfirmDialog"] );

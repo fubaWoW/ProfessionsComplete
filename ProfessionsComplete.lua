@@ -368,9 +368,30 @@ end
 -- Misc
 --------------------------------------------------------------------------------------------------------------------------------------------
 NS.OpenWithTradeSkill = function()
+	local charInMonitoringList = false
 	if NS.dbpc["openWithTradeSKill"] and C_TradeSkillUI.GetBaseProfessionInfo().professionID ~= 129 and C_TradeSkillUI.GetBaseProfessionInfo().professionID ~= 185 and C_TradeSkillUI.GetBaseProfessionInfo().professionID ~= 960 and not C_TradeSkillUI.IsTradeSkillLinked() and not C_TradeSkillUI.IsTradeSkillGuild() then
 		local parent = ( ProfessionsFrame and ProfessionsFrame:IsShown() and ProfessionsFrame ) or ( TSMCraftingTradeSkillFrame and TSMCraftingTradeSkillFrame:IsShown() and TSMCraftingTradeSkillFrame ) or ( SkilletFrame and SkilletFrame:IsShown() and SkilletFrame );
 		if parent then
+			for _,char in ipairs( NS.db["characters"] ) do
+				local monitoring = 0; -- Init monitoring count
+				-- Professions
+				for i = 1, 2 do
+					if char["professions"][i] then -- Can be nil if character doesn't have profession 1 or 2
+						for _,cd in ipairs( NS.db["cooldowns"][char["professions"][i]["skillLine"]] ) do -- Pull from global cooldowns
+							if char["professions"][i]["cooldowns"][cd.spellID] and char["monitor"][cd.spellID] then -- Was cooldown known to character on last update and being monitored?
+								monitoring = monitoring + 1;
+							end
+						end
+					end
+				end
+				-- Monitoring?
+				if monitoring > 0 then
+					if char["name"] == NS.currentCharacter.name then
+						charInMonitoringList = true
+					end
+				end
+			end			
+			if (NS.db["openOnlyOnMonitoring"]) and (not charInMonitoringList) then return end			
 			NS.UI.MainFrame:SetParent( parent ); -- Put into parent for positioning
 			NS.UI.MainFrame:Reposition();
 			NS.UI.MainFrame:ShowTab( 1 );
